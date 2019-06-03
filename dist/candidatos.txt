@@ -1,0 +1,14 @@
+candidato 1;imagen1.jpg
+candidato 2;imagen2.png
+candidato 3;imagen3.jpg
+candidato 4;imagen4.png
+candidato 5;imagen5.png
+candidato 6;imagen6.png
+candidato 7;imagen7.png
+candidato 8;imagen8.png
+candidato 9;imagen9.png
+candidato 10;imagen10.jpg
+candidato 11;imagen11.png
+candidato 12;imagen12.png
+candidato 13;imagen13.png
+candidato 14;imagen14.jpg
