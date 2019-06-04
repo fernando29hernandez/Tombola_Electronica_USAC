@@ -1,14 +1,11 @@
-candidato 1;imagen1.jpg
-candidato 2;imagen2.png
-candidato 3;imagen3.jpg
-candidato 4;imagen4.png
-candidato 5;imagen5.png
-candidato 6;imagen6.png
-candidato 7;imagen7.png
-candidato 8;imagen8.png
-candidato 9;imagen9.png
-candidato 10;imagen10.jpg
-candidato 11;imagen11.png
-candidato 12;imagen12.png
-candidato 13;imagen13.png
-candidato 14;imagen14.jpg
+Amilcar Rivera - Partido Victoria;candidato1.jpg
+Edmund Mulet - Partido Humanista;candidato2.jpg
+Manfredo Marroquin - Partido Encuentro por Guatemala;candidato3.jpg
+Benito Morales - Partido Convergencia;candidato4.jpg
+Luis Velásquez - Partido Unidos;candidato5.jpg
+Anibal Garcia - Partido Libre;candidato6.jpg
+Edwin Escobar - Partido Properidad Ciudadana;candidato7.jpg
+Pablo Ceto - Partido URNG MAIZ;candidato8.jpg
+Danilo Roca - Partido AVANZA;candidato9.jpg
+Jose Luis Chea - Partido PPT Productividad y Trabajo;candidato10.jpg
+Pablo Duarte - Partido Unionista;candidato11.jpg

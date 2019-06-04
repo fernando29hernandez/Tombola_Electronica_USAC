@@ -21,6 +21,7 @@ import javax.swing.DefaultListModel;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
@@ -38,6 +39,7 @@ public class Listado extends javax.swing.JFrame {
     public Listado() {
         initComponents();
         setMinimumSize(this.getSize());
+        //setExtendedState(JFrame.MAXIMIZED_BOTH); 
     }
     
     /**
@@ -89,16 +91,16 @@ public class Listado extends javax.swing.JFrame {
         FotografiaLayout.setHorizontalGroup(
             FotografiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FotografiaLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(foto, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         FotografiaLayout.setVerticalGroup(
             FotografiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(FotografiaLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(foto, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButton1.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
@@ -438,6 +440,7 @@ DefaultListModel modeloronda = new DefaultListModel();
         v1.paso=0;
         v1.lblnombre.setText("                      ");
         v1.lbltiempo.setText("00:00");
+        v1.txtpartido.setText("                      ");
         v1.rutasordenas.clear();
         v1.bandera_primer_turno=true;
             try {
@@ -455,7 +458,7 @@ DefaultListModel modeloronda = new DefaultListModel();
         this.setVisible(false);
         v1.OrdenPaso.setModel(v1.temp);
         v1.setVisible(true);
-        
+        v1.setLocationRelativeTo(null);
         
         }else{
              JOptionPane.showMessageDialog(null,"" +
