@@ -81,24 +81,24 @@ public class Resultados extends javax.swing.JFrame {
                     verde.setIcon(new ImageIcon(imgverde));
                     amarillo.setIcon(new ImageIcon(imgblanco));
                     rojo.setIcon(new ImageIcon(imgblanco));
-                }else if(porcentaje<40&&porcentaje>=1){
+                }else if(porcentaje<25&&porcentaje>=1){
                     verde.setIcon(new ImageIcon(imgblanco));
                     amarillo.setIcon(new ImageIcon(imgamarillo));
                     rojo.setIcon(new ImageIcon(imgblanco));
-                }else if(porcentaje<1){
+                }else if(counter<1){
                      verde.setIcon(new ImageIcon(imgblanco));
                     amarillo.setIcon(new ImageIcon(imgblanco));
                     rojo.setIcon(new ImageIcon(imgrojo));
+                    
                 }
-                if(porcentaje<1){
+                if(counter<1){
                     
                     t.stop();
                     
                     start.setEnabled(true);
                     restart.setEnabled(false);
                     pause.setEnabled(false);
-                    
-                    System.out.println("estoy aqui");
+                    lbltiempo.setText("00:00");
                 }    
            }
         });
@@ -169,6 +169,11 @@ public class Resultados extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true), "Orden de Paso", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 3, 11))); // NOI18N
 
@@ -516,12 +521,8 @@ public class Resultados extends javax.swing.JFrame {
     boolean bandera_primer_turno=true;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        if(bandera_primer_turno){
-            paso=paso+0;
-            bandera_primer_turno=false;
-        }else{
-                paso=paso+1; 
-        }
+        paso=paso+1; 
+        
         if(OrdenPaso.getModel().getSize()==paso){
             paso=OrdenPaso.getModel().getSize()-1;
         }
@@ -540,8 +541,9 @@ public class Resultados extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       TombolaElectronica.v.setVisible(true);
-       this.setVisible(false);
+        this.setVisible(false);
+        this.dispose();
+        TombolaElectronica.v.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 public Timer t;
 int total ;
@@ -656,6 +658,12 @@ int total ;
             fotogrande.setIcon(new ImageIcon(dimg));
 
     }//GEN-LAST:event_OrdenPasoValueChanged
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.setVisible(false);
+        this.dispose();
+        TombolaElectronica.v.setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 int counter;
 int minutes;
 int seconds;

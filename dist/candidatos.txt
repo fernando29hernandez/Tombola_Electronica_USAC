@@ -2,10 +2,11 @@ Amilcar Rivera - Partido Victoria;candidato1.jpg
 Edmund Mulet - Partido Humanista;candidato2.jpg
 Manfredo Marroquin - Partido Encuentro por Guatemala;candidato3.jpg
 Benito Morales - Partido Convergencia;candidato4.jpg
-Luis Velásquez - Partido Unidos;candidato5.jpg
+Luis Velasquez - Partido Unidos;candidato5.jpg
 Anibal Garcia - Partido Libre;candidato6.jpg
-Edwin Escobar - Partido Properidad Ciudadana;candidato7.jpg
+Edwin Escobar - Partido Prosperidad Ciudadana;candidato7.jpg
 Pablo Ceto - Partido URNG MAIZ;candidato8.jpg
 Danilo Roca - Partido AVANZA;candidato9.jpg
 Jose Luis Chea - Partido PPT Productividad y Trabajo;candidato10.jpg
 Pablo Duarte - Partido Unionista;candidato11.jpg
+Manuel Villacorta - Partido Winaq;candidato12.jpg

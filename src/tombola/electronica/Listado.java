@@ -24,6 +24,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -36,6 +37,10 @@ public class Listado extends javax.swing.JFrame {
      */
     String texto;
     LinkedList<BufferedImage>rutas= new LinkedList();
+    LinkedList<BufferedImage>rutasronda= new LinkedList();
+    DefaultListModel modeloronda = new DefaultListModel();
+    DefaultListModel modelo = new DefaultListModel();
+    int numfotos=0;
     public Listado() {
         initComponents();
         setMinimumSize(this.getSize());
@@ -370,103 +375,134 @@ public class Listado extends javax.swing.JFrame {
         Listado.setModel(modelo);
         Tombola.setModel(modeloronda);
         rutas.clear();
+        rutasronda.clear();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-DefaultListModel modelo = new DefaultListModel();
-int numfotos=0;
+
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        abrirArchivo();
-        String []modelocandidatos = texto.split("\n");
-        for(String candidato:modelocandidatos){
-            String []tempcandidato = candidato.split(";");
-            String fotoruta = tempcandidato[1];
-            try {
-                BufferedImage temp;
-                temp = ImageIO.read(new File(fotoruta));
-                rutas.add(temp);
-            } catch (IOException ex) {
-                Logger.getLogger(Listado.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            modelo.addElement(tempcandidato[0]);
-            numfotos++;
-        }
+        modelo.clear();
+        modeloronda.clear();
         Listado.setModel(modelo);
+        Tombola.setModel(modeloronda);
+        rutas.clear();
+        rutasronda.clear();
+        int archivoabierto = abrirArchivo();
+        if(archivoabierto==1){
+            String []modelocandidatos = texto.split("\n");
+            for(String candidato:modelocandidatos){
+                String []tempcandidato = candidato.split(";");
+                String fotoruta = tempcandidato[1];
+                try {
+                    BufferedImage temp;
+                    temp = ImageIO.read(new File(fotoruta));
+                    rutas.add(temp);
+                } catch (IOException ex) {
+                    Logger.getLogger(Listado.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                modelo.addElement(tempcandidato[0]);
+                numfotos++;
+            }
+            Listado.setModel(modelo);
+        }else{
+            JOptionPane.showMessageDialog(null,"" +
+                 "\n NO se cargo ningun archivo al sistema",
+                       "ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
+            
+        }
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-DefaultListModel modeloronda = new DefaultListModel();
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       if(Listado.getSelectedIndices().length!=0){
-       
-        if(Listado.getSelectedIndices().length>1){
-             int[] listado =Listado.getSelectedIndices();
-             for (int elem : listado){
-                 if(elem<Listado.getModel().getSize()){
-                    String nom=Listado.getModel().getElementAt(elem);
-                    modeloronda.addElement(nom);
-                    Tombola.setModel(modeloronda);
+        if(Listado.getSelectedIndices().length!=0){
+            if(Listado.getSelectedIndices().length>1){
+                 int[] listado =Listado.getSelectedIndices();
+                 for (int elem : listado){
+                     if(elem<Listado.getModel().getSize()){
+                        String nom=Listado.getModel().getElementAt(elem);
+                        BufferedImage imgselect=rutas.get(elem);
+                        if(!modeloronda.contains(nom)){
+                            rutasronda.add(imgselect);
+                            modeloronda.addElement(nom);
+                       
+                        }
+                        
+                     }
+                }
+                Tombola.setModel(modeloronda);         
+            }else{
+                int selectedIndex = Listado.getSelectedIndex();
+                String nombre = Listado.getSelectedValue();
+                BufferedImage imgselect=rutas.get(selectedIndex);
+                if(!modeloronda.contains(nombre)){
+                            rutasronda.add(imgselect);
+                            modeloronda.addElement(nombre);
+                       
                  }
-             }
-       }else{
-            int selectedIndex = Listado.getSelectedIndex();
-            String nombre = Listado.getSelectedValue();
-            modeloronda.addElement(nombre);
-            Tombola.setModel(modeloronda);
-       }
-    }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"" +
+                 "\n Seleccione por lo menos un candidato del listado",
+                       "ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
+            
+        
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         modeloronda.clear();
+        rutasronda.clear();
         Tombola.setModel(modeloronda);
     }//GEN-LAST:event_jButton2ActionPerformed
     public static Resultados v1=new Resultados();
         
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        v1=new Resultados();
         if(Tombola.getModel().getSize()!=0){
             DefaultListModel temp = (DefaultListModel) Tombola.getModel();
-        int tamano= temp.getSize();
-        int numeros[]=new int [tamano];
-        int minimo = 0;
-        int maximo = tamano-1;
-        //Genera, comprueba e introduce los numeros en el array si la comprobación es correcta
-        for (int i = 0; i < numeros.length; i++) {
-            int num = Generar(minimo,maximo);   
-            //Aqui es donde falla, siempre sale true.
-            if(Comprobar(numeros,num,i)==true){
-                numeros[i] = num;
-            }else i--;
-        }
-        v1.t.stop();
-        v1.temp.clear();
-        v1.paso=0;
-        v1.lblnombre.setText("                      ");
-        v1.lbltiempo.setText("00:00");
-        v1.txtpartido.setText("                      ");
-        v1.rutasordenas.clear();
-        v1.bandera_primer_turno=true;
-            try {
-                v1.leerimg();
-            } catch (IOException ex) {
-                Logger.getLogger(Listado.class.getName()).log(Level.SEVERE, null, ex);
+            int tamano= temp.getSize();
+            int numeros[]=new int [tamano];
+            int minimo = 0;
+            int maximo = tamano-1;
+            //Genera, comprueba e introduce los numeros en el array si la comprobación es correcta
+            for (int i = 0; i < numeros.length; i++) {
+                int num = Generar(minimo,maximo);   
+                //Aqui es donde falla, siempre sale true.
+                if(Comprobar(numeros,num,i)==true){
+                    numeros[i] = num;
+                }else i--;
             }
-        v1.fotogrande.setIcon(null);
-        
-        for (int i = 0; i < numeros.length; i++) {
-            v1.temp.addElement(temp.get(numeros[i]));
-            v1.rutasordenas.add(rutas.get(numeros[i]));
-            System.out.println(numeros[i]);
-        }
-        this.setVisible(false);
-        v1.OrdenPaso.setModel(v1.temp);
-        v1.setVisible(true);
-        v1.setLocationRelativeTo(null);
-        
+            if(v1.t.isRunning()){
+                v1.t.stop();
+            }
+            v1.temp.clear();
+            v1.paso=0;
+            v1.lblnombre.setText("                      ");
+            v1.lbltiempo.setText("00:00");
+            v1.txtpartido.setText("                      ");
+            v1.rutasordenas.clear();
+            v1.bandera_primer_turno=true;
+                try {
+                    v1.leerimg();
+                } catch (IOException ex) {
+                    Logger.getLogger(Listado.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            v1.fotogrande.setIcon(null);
+            for (int i = 0; i < numeros.length; i++) {
+                v1.temp.addElement(temp.get(numeros[i]));
+                v1.rutasordenas.add(rutasronda.get(numeros[i]));
+                System.out.println(numeros[i]);
+            }
+            this.setVisible(false);
+            v1.OrdenPaso.setModel(v1.temp);
+            v1.OrdenPaso.setSelectedIndex(0);
+            v1.setVisible(true);
+            v1.setLocationRelativeTo(null);
+            
         }else{
              JOptionPane.showMessageDialog(null,"" +
                  "\n Lista de la tombola esta vacia",
                        "ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
-        
         }
-        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -475,7 +511,14 @@ DefaultListModel modeloronda = new DefaultListModel();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Listado.setSelectionInterval(0, Listado.getModel().getSize());
+        
+        if(Listado.getModel().getSize()!=0){
+            Listado.setSelectionInterval(0, Listado.getModel().getSize());
+        }else{
+                 JOptionPane.showMessageDialog(null,"" +
+                 "\n Lista de los candidatos esta vacia",
+                       "ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -484,41 +527,41 @@ DefaultListModel modeloronda = new DefaultListModel();
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if(Tombola.getSelectedIndices().length!=0){
-       
-        if(Tombola.getSelectedIndices().length>1){
-             int[] listado =Tombola.getSelectedIndices();
-                 if(listado.length-1<Tombola.getModel().getSize()){
-                    
-                    modeloronda.removeRange(listado[0],listado[listado.length-1]);
-                    
-                 }
-             
-             Tombola.setModel(modeloronda);
-       }else{
-            int selectedIndex = Tombola.getSelectedIndex();
-            String nombre = Tombola.getSelectedValue();
-            modeloronda.remove(selectedIndex);
-            Tombola.setModel(modeloronda);
-       }
-    }
+            if(Tombola.getSelectedIndices().length>1){
+                 JOptionPane.showMessageDialog(null,"" +
+                 "\n Seleccione un solo elemeto de la tombola",
+                       "ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
+            }else{
+                int selectedIndex = Tombola.getSelectedIndex();
+                String nombre = Tombola.getSelectedValue();
+                modeloronda.remove(selectedIndex);
+                rutasronda.remove(selectedIndex);
+                Tombola.setModel(modeloronda);
+           }
+        }else{
+            JOptionPane.showMessageDialog(null,"" +
+                 "\n Seleccione por lo menos un elemento de la tombola",
+                       "ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
+            
+        
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void ListadoValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_ListadoValueChanged
-            
-            int ancho=foto.getWidth();
-            int alto = foto.getHeight();
-            BufferedImage image = null;
-            ImagePanel imagePanel = null;
-            Image dimg=null;
-            JList indices = (JList) evt.getSource();
-            int indice []= indices.getSelectedIndices();
-            if(indice.length==0){
-            image = rutas.get(0);
-            }else{
-            image = rutas.get(indice[0]);
-            }
-            dimg = image.getScaledInstance(ancho,alto,Image.SCALE_REPLICATE);
-            foto.setIcon(new ImageIcon(dimg));
+        int ancho=foto.getWidth();
+        int alto = foto.getHeight();
+        BufferedImage image = null;
+        ImagePanel imagePanel = null;
+        Image dimg=null;
+        JList indices = (JList) evt.getSource();
+        int indice []= indices.getSelectedIndices();
+        if(indice.length==0){
+        image = rutas.get(0);
+        }else{
+        image = rutas.get(indice[0]);
+        }
+        dimg = image.getScaledInstance(ancho,alto,Image.SCALE_REPLICATE);
+        foto.setIcon(new ImageIcon(dimg));
     }//GEN-LAST:event_ListadoValueChanged
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -530,25 +573,28 @@ DefaultListModel modeloronda = new DefaultListModel();
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         
     }//GEN-LAST:event_formComponentResized
-public static int Generar(int minimo, int maximo){
-    Random  rnd = new Random();
-    int num = (minimo + rnd.nextInt((maximo + 1) - minimo));
-    return num;
-}
-public static boolean Comprobar(int numeros[], int num, int i){
- boolean igual = true;
- for(int j = 0; j<i; j++){
-    if(numeros[j] == num){
-            igual = false;
-       }
-   }return igual; 
-}
-    private String abrirArchivo() {
+    public static int Generar(int minimo, int maximo){
+        Random  rnd = new Random();
+        int num = (minimo + rnd.nextInt((maximo + 1) - minimo));
+        return num;
+    }
+    public static boolean Comprobar(int numeros[], int num, int i){
+        boolean igual = true;
+        for(int j = 0; j<i; j++){
+            if(numeros[j] == num){
+                igual = false;
+              }
+        }
+        return igual; 
+    }
+    private int abrirArchivo() {
         String aux="";   
         texto="";
         try{
             /**llamamos el metodo que permite cargar la ventana*/
             JFileChooser file=new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt", "text");
+            file.setFileFilter(filter);
             file.showOpenDialog(this);
             /**abrimos el archivo seleccionado*/
             File abre=file.getSelectedFile();
@@ -562,13 +608,14 @@ public static boolean Comprobar(int numeros[], int num, int i){
                    texto+= aux+ "\n";
                 }
                 lee.close();
-            }    
+            return 1;
+            }        
         }catch(IOException ex){
            JOptionPane.showMessageDialog(null,"" +
                  "\nNo se ha encontrado el archivo",
                        "ADVERTENCIA!!!",JOptionPane.WARNING_MESSAGE);
         }
-        return texto;//El texto se almacena en el JTextArea
+        return 0;//El texto se almacena en el JTextArea
     }
 
    
